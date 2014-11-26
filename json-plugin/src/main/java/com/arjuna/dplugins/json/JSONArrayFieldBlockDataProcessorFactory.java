@@ -18,9 +18,9 @@ import com.arjuna.databroker.data.InvalidPropertyException;
 import com.arjuna.databroker.data.MissingMetaPropertyException;
 import com.arjuna.databroker.data.MissingPropertyException;
 
-public class JSONDataProcessorFactory implements DataFlowNodeFactory
+public class JSONArrayFieldBlockDataProcessorFactory implements DataFlowNodeFactory
 {
-    public JSONDataProcessorFactory(String name, Map<String, String> properties)
+    public JSONArrayFieldBlockDataProcessorFactory(String name, Map<String, String> properties)
     {
         _name       = name;
         _properties = properties;
@@ -60,7 +60,7 @@ public class JSONDataProcessorFactory implements DataFlowNodeFactory
     {
         List<String> propertyNames = new LinkedList<String>();
 
-        propertyNames.add(JSONFieldFilterDataProcessor.JSON_FIELDSPASSED_PROPERTYNAME);
+        propertyNames.add(JSONArrayFieldBlockDataProcessor.FIELDSBLOCKED_PROPERTYNAME);
 
         return propertyNames;
     }
@@ -70,8 +70,8 @@ public class JSONDataProcessorFactory implements DataFlowNodeFactory
     public <T extends DataFlowNode> T createDataFlowNode(String name, Class<T> dataFlowNodeClass, Map<String, String> metaProperties, Map<String, String> properties)
         throws InvalidNameException, InvalidPropertyException, MissingPropertyException
     {
-        if (dataFlowNodeClass.isAssignableFrom(JSONFieldFilterDataProcessor.class))
-            return (T) new JSONFieldFilterDataProcessor(name, properties);
+        if (dataFlowNodeClass.isAssignableFrom(JSONArrayFieldBlockDataProcessor.class))
+            return (T) new JSONArrayFieldBlockDataProcessor(name, properties);
         else
             return null;
     }

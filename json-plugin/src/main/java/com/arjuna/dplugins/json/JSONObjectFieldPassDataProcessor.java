@@ -23,17 +23,17 @@ import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
 import com.arjuna.databroker.data.jee.annotation.DataProviderInjection;
 import com.arjuna.databroker.data.jee.annotation.PostConfig;
 
-public class JSONFieldFilterDataProcessor implements DataProcessor
+public class JSONObjectFieldPassDataProcessor implements DataProcessor
 {
-    private static final Logger logger = Logger.getLogger(JSONFieldFilterDataProcessor.class.getName());
+    private static final Logger logger = Logger.getLogger(JSONObjectFieldPassDataProcessor.class.getName());
 
-    public static final String JSON_FIELDSPASSED_PROPERTYNAME = "JSON Fields Passed";
+    public static final String FIELDSPASSED_PROPERTYNAME = "Fields Passed";
 
-    public JSONFieldFilterDataProcessor(String name, Map<String, String> properties)
+    public JSONObjectFieldPassDataProcessor(String name, Map<String, String> properties)
     {
-        logger.log(Level.FINE, "JSONFieldFilterDataProcessor: " + name + ", " + properties);
+        logger.log(Level.FINE, "JSONObjectFieldPassDataProcessor: " + name + ", " + properties);
 
-        _fields = new LinkedList<String>();
+        _fieldsPassed = new LinkedList<String>();
 
         _name       = name;
         _properties = properties;
@@ -79,12 +79,12 @@ public class JSONFieldFilterDataProcessor implements DataProcessor
     @PostConfig
     public void config()
     {
-        String fieldsText = _properties.get(JSON_FIELDSPASSED_PROPERTYNAME);
+        String fieldsPassedProperty = _properties.get(FIELDSPASSED_PROPERTYNAME);
 
-        _fields.clear();
-        if (fieldsText != null)
-            for (String field: fieldsText.split(","))
-                _fields.add(field.trim());
+        _fieldsPassed.clear();
+        if (fieldsPassedProperty != null)
+            for (String fieldPassed: fieldsPassedProperty.split(","))
+                _fieldsPassed.add(fieldPassed.trim());
     }
  
     public void filter(String data)
@@ -94,13 +94,13 @@ public class JSONFieldFilterDataProcessor implements DataProcessor
             JSONObject inputJSONObject  = new JSONObject(data);
             JSONObject outputJSONObject = new JSONObject();
 
-            for (String field: _fields)
+            for (String fieldPassed: _fieldsPassed)
             {
                 try
                 {
-                    Object fieldObjectValue = inputJSONObject.get(field);
+                    Object fieldPassedObjectValue = inputJSONObject.get(fieldPassed);
 
-                    outputJSONObject.put(field, fieldObjectValue);
+                    outputJSONObject.put(fieldPassed, fieldPassedObjectValue);
                 }
                 catch (JSONException jsonException)
                 {
@@ -155,7 +155,7 @@ public class JSONFieldFilterDataProcessor implements DataProcessor
             return null;
     }
 
-    private List<String> _fields;
+    private List<String> _fieldsPassed;
 
     private String               _name;
     private Map<String, String>  _properties;

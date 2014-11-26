@@ -19,15 +19,24 @@ public class JSONFactoriesSetup
     @PostConstruct
     public void setup()
     {
-        JSONDataProcessorFactory twitterDataSourceFactory = new JSONDataProcessorFactory("Twitter Data Source Factory", Collections.<String, String>emptyMap());
+        JSONObjectFieldPassDataProcessorFactory  jsonObjectFieldPassDataProcessorFactory  = new JSONObjectFieldPassDataProcessorFactory("JSON Object Field Pass Data Processor Factory", Collections.<String, String>emptyMap());
+        JSONObjectFieldBlockDataProcessorFactory jsonObjectFieldBlockDataProcessorFactory = new JSONObjectFieldBlockDataProcessorFactory("JSON Object Field Block Data Processor Factory", Collections.<String, String>emptyMap());
+        JSONArrayFieldPassDataProcessorFactory   jsonArrayFieldPassDataProcessorFactory   = new JSONArrayFieldPassDataProcessorFactory("JSON Array Field Pass Data Processor Factory", Collections.<String, String>emptyMap());
+        JSONArrayFieldBlockDataProcessorFactory  jsonArrayFieldBlockDataProcessorFactory  = new JSONArrayFieldBlockDataProcessorFactory("JSON Array Field Block Data Processor Factory", Collections.<String, String>emptyMap());
 
-        _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(twitterDataSourceFactory);
+        _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(jsonObjectFieldPassDataProcessorFactory);
+        _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(jsonObjectFieldBlockDataProcessorFactory);
+        _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(jsonArrayFieldPassDataProcessorFactory);
+        _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(jsonArrayFieldBlockDataProcessorFactory);
     }
 
     @PreDestroy
     public void cleanup()
     {
-        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("Twitter Data Source Factory");
+        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("JSON Object Field Pass Data Processor Factory");
+        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("JSON Object Field Block Data Processor Factory");
+        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("JSON Array Field Pass Data Processor Factory");
+        _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("JSON Array Field Block Data Processor Factory");
     }
 
     @EJB(lookup="java:global/databroker/control-core/DataFlowNodeFactoryInventory")
