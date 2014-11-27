@@ -112,7 +112,7 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
                 {
                     try
                     {
-                        if (_fieldsBlocked.contains(field))
+                        if (! _fieldsBlocked.contains(field))
                         {
                             Object fieldObjectValue = inputJSONObject.get(field);
 
