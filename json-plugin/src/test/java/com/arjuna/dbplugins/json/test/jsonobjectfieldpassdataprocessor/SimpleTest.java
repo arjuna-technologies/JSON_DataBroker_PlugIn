@@ -7,8 +7,12 @@ package com.arjuna.dbplugins.json.test.jsonobjectfieldpassdataprocessor;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
+
+import org.json.JSONObject;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import com.arjuna.databroker.data.DataProcessor;
 import com.arjuna.databroker.data.connector.ObservableDataProvider;
 import com.arjuna.databroker.data.connector.ObserverDataConsumer;
@@ -34,13 +38,8 @@ public class SimpleTest
         DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(jsonObjectFieldPassDataProcessor, null);
         DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(dummyDataSink, null);
 
-        ObservableDataProvider<String> link0Provider = 
-        
         ((ObservableDataProvider<String>) dummyDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) jsonObjectFieldPassDataProcessor.getDataConsumer(String.class));
         ((ObservableDataProvider<String>) jsonObjectFieldPassDataProcessor.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) dummyDataSink.getDataConsumer(String.class));
-
-//        ((ObservableDataProvider<String>) dummyDataSource.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) jsonObjectFieldPassDataProcessor.getDataConsumer(String.class));
-//        ((ObservableDataProvider<String>) jsonObjectFieldPassDataProcessor.getDataProvider(String.class)).addDataConsumer((ObserverDataConsumer<String>) dummyDataSink.getDataConsumer(String.class));
 
         dummyDataSource.sendData("{ \"a\": \"1\", \"b\": \"2\", \"c\": \"3\", \"d\": \"4\" }");
 
@@ -50,6 +49,11 @@ public class SimpleTest
 
         assertNotNull("Unexpected 'null' data set", dummyDataSink.receivedData());
         assertEquals("Unexpected number of data items", 1, dummyDataSink.receivedData().size());
-        assertEquals("Incorrect filtering", "{ \"a\": \"1\", \"b\": \"2\", \"c\": \"3\" }", dummyDataSink.receivedData().get(0));
+        JSONObject outputJSONObject = new JSONObject((String) dummyDataSink.receivedData().get(0));
+        assertNotNull("Unexpected null output JSONObject", outputJSONObject);
+        assertEquals("Unexpected number of keys", 3, outputJSONObject.keySet().size());
+        assertEquals("Unexpected 'a' value", "1", outputJSONObject.getString("a"));
+        assertEquals("Unexpected 'b' value", "2", outputJSONObject.getString("b"));
+        assertEquals("Unexpected 'c' value", "3", outputJSONObject.getString("c"));
     }
 }
