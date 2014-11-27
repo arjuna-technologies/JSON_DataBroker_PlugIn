@@ -7,12 +7,9 @@ package com.arjuna.dbplugins.json.test.jsonobjectfieldpassdataprocessor;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
-
 import org.json.JSONObject;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
-
 import com.arjuna.databroker.data.DataProcessor;
 import com.arjuna.databroker.data.connector.ObservableDataProvider;
 import com.arjuna.databroker.data.connector.ObserverDataConsumer;
@@ -26,7 +23,7 @@ public class SimpleTest
     @Test
     public void simpleInvocation()
     {
-        String              name       = "JSON Object Field Block Data Processor";
+        String              name       = "JSON Object Field Pass Data Processor";
         Map<String, String> properties = new HashMap<String, String>();
         properties.put(JSONObjectFieldPassDataProcessor.FIELDSPASSED_PROPERTYNAME, "a,b,c");
 
