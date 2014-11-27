@@ -150,7 +150,7 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
     @SuppressWarnings("unchecked")
     public <T> DataConsumer<T> getDataConsumer(Class<T> dataClass)
     {
-        if (dataClass == String.class)
+        if (String.class.isAssignableFrom(dataClass))
             return (DataConsumer<T>) _dataConsumer;
         else
             return null;
@@ -170,7 +170,7 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
     @SuppressWarnings("unchecked")
     public <T> DataProvider<T> getDataProvider(Class<T> dataClass)
     {
-        if (dataClass == String.class)
+        if (String.class.isAssignableFrom(dataClass))
             return (DataProvider<T>) _dataProvider;
         else
             return null;
