@@ -95,7 +95,7 @@ public class JSONObjectFieldBlockDataProcessor implements DataProcessor
     }
  
     @SuppressWarnings("unchecked")
-	public void filter(String data)
+    public void filter(String data)
     {
         try
         {
@@ -106,16 +106,16 @@ public class JSONObjectFieldBlockDataProcessor implements DataProcessor
             {
                 try
                 {
-                	if (_fieldsBlocked.contains(field))
-                	{
+                    if (_fieldsBlocked.contains(field))
+                    {
                         Object fieldObjectValue = inputJSONObject.get(field);
 
                         outputJSONObject.put(field, fieldObjectValue);
-                	}
+                    }
                 }
                 catch (JSONException jsonException)
                 {
-                	logger.log(Level.WARNING, "Failed to transfer field");
+                    logger.log(Level.WARNING, "Failed to transfer field");
                 }
             }
 

@@ -109,18 +109,18 @@ public class JSONArrayFieldPassDataProcessor implements DataProcessor
                 JSONObject inputJSONObject  = inputJSONArray.getJSONObject(index);
                 JSONObject outputJSONObject = new JSONObject();
 
-	            for (String fieldPassed: _fieldsPassed)
-	            {
-	                try
-	                {
-	                    Object fieldPassedObjectValue = inputJSONObject.get(fieldPassed);
-	
-	                    outputJSONObject.put(fieldPassed, fieldPassedObjectValue);
-	                }
-	                catch (JSONException jsonException)
-	                {
-	                }
-	            }
+                for (String fieldPassed: _fieldsPassed)
+                {
+                    try
+                    {
+                        Object fieldPassedObjectValue = inputJSONObject.get(fieldPassed);
+    
+                        outputJSONObject.put(fieldPassed, fieldPassedObjectValue);
+                    }
+                    catch (JSONException jsonException)
+                    {
+                    }
+                }
 
                 outputJSONArray.put(index, outputJSONObject);
             }

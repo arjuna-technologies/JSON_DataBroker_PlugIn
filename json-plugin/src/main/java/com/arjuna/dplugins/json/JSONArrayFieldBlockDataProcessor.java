@@ -96,7 +96,7 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
     }
  
     @SuppressWarnings("unchecked")
-	public void filter(String data)
+    public void filter(String data)
     {
         try
         {
@@ -109,21 +109,21 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
                 JSONObject outputJSONObject = new JSONObject();
 
                 for (String field: (Set<String>) inputJSONObject.keySet())
-	            {
-	                try
-	                {
-	                	if (_fieldsBlocked.contains(field))
-	                	{
-	                        Object fieldObjectValue = inputJSONObject.get(field);
+                {
+                    try
+                    {
+                        if (_fieldsBlocked.contains(field))
+                        {
+                            Object fieldObjectValue = inputJSONObject.get(field);
 
-	                        outputJSONObject.put(field, fieldObjectValue);
-	                	}
-	                }
-	                catch (JSONException jsonException)
-	                {
-	                	logger.log(Level.WARNING, "Failed to transfer field");
-	                }
-	            }
+                            outputJSONObject.put(field, fieldObjectValue);
+                        }
+                    }
+                    catch (JSONException jsonException)
+                    {
+                        logger.log(Level.WARNING, "Failed to transfer field");
+                    }
+                }
 
                 outputJSONArray.put(index, outputJSONObject);
             }
