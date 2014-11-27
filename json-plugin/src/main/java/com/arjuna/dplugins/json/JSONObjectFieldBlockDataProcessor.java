@@ -36,6 +36,8 @@ public class JSONObjectFieldBlockDataProcessor implements DataProcessor
         _name       = name;
         _properties = properties;
         _dataFlow   = null;
+        
+        config();
     }
 
     @Override
