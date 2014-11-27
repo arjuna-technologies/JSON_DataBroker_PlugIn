@@ -11,8 +11,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataFlow;
 import com.arjuna.databroker.data.DataProcessor;
@@ -20,6 +22,7 @@ import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
 import com.arjuna.databroker.data.jee.annotation.DataProviderInjection;
 import com.arjuna.databroker.data.jee.annotation.PostConfig;
+import com.arjuna.databroker.data.jee.annotation.PostCreated;
 
 public class JSONObjectFieldBlockDataProcessor implements DataProcessor
 {
@@ -36,8 +39,6 @@ public class JSONObjectFieldBlockDataProcessor implements DataProcessor
         _name       = name;
         _properties = properties;
         _dataFlow   = null;
-        
-        config();
     }
 
     @Override
@@ -74,6 +75,12 @@ public class JSONObjectFieldBlockDataProcessor implements DataProcessor
     public void setDataFlow(DataFlow dataFlow)
     {
         _dataFlow = dataFlow;
+    }
+
+    @PostCreated
+    public void setup()
+    {
+        config();
     }
 
     @PostConfig

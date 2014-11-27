@@ -25,6 +25,7 @@ import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
 import com.arjuna.databroker.data.jee.annotation.DataProviderInjection;
 import com.arjuna.databroker.data.jee.annotation.PostConfig;
+import com.arjuna.databroker.data.jee.annotation.PostCreated;
 
 public class JSONArrayFieldPassDataProcessor implements DataProcessor
 {
@@ -41,8 +42,6 @@ public class JSONArrayFieldPassDataProcessor implements DataProcessor
         _name       = name;
         _properties = properties;
         _dataFlow   = null;
-        
-        config();
     }
 
     @Override
@@ -79,6 +78,12 @@ public class JSONArrayFieldPassDataProcessor implements DataProcessor
     public void setDataFlow(DataFlow dataFlow)
     {
         _dataFlow = dataFlow;
+    }
+
+    @PostCreated
+    public void setup()
+    {
+        config();
     }
 
     @PostConfig
