@@ -32,6 +32,11 @@ public class JSONObjectFieldPassDataProcessor implements DataProcessor
 
     public static final String FIELDSPASSED_PROPERTYNAME = "Fields Passed";
 
+    public JSONObjectFieldPassDataProcessor()
+    {
+        logger.log(Level.FINE, "JSONObjectFieldPassDataProcessor");
+    }
+
     public JSONObjectFieldPassDataProcessor(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "JSONObjectFieldPassDataProcessor: " + name + ", " + properties);

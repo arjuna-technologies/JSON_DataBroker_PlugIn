@@ -31,6 +31,11 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
 
     public static final String FIELDSBLOCKED_PROPERTYNAME = "Fields Blocked";
 
+    public JSONArrayFieldBlockDataProcessor()
+    {
+        logger.log(Level.FINE, "JSONArrayFieldBlockDataProcessor");
+    }
+
     public JSONArrayFieldBlockDataProcessor(String name, Map<String, String> properties)
     {
         logger.log(Level.FINE, "JSONArrayFieldBlockDataProcessor: " + name + ", " + properties);

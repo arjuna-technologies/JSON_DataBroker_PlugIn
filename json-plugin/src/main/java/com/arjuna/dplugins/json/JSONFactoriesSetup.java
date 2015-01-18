@@ -39,6 +39,6 @@ public class JSONFactoriesSetup
         _dataFlowNodeFactoryInventory.removeDataFlowNodeFactory("JSON Array Field Block Data Processor Factory");
     }
 
-    @EJB(lookup="java:global/databroker/control-core/DataFlowNodeFactoryInventory")
+    @EJB(lookup="java:global/databroker/data-core-jee/DataFlowNodeFactoryInventory")
     private DataFlowNodeFactoryInventory _dataFlowNodeFactoryInventory;
 }
