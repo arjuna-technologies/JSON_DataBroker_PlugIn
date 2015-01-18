@@ -7,12 +7,14 @@ package com.arjuna.dbplugins.json.test.jsonobjectfieldpassdataprocessor;
 import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.UUID;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataProcessor;
 import com.arjuna.databroker.data.DataProvider;
-import com.arjuna.databroker.data.jee.DataFlowNodeLifeCycleControl;
+import com.arjuna.databroker.data.core.DataFlowNodeLifeCycleControl;
+import com.arjuna.dbutilities.testsupport.dataflownodes.lifecycle.TestJEEDataFlowNodeLifeCycleControl;
 import com.arjuna.dplugins.json.JSONObjectFieldPassDataProcessor;
 
 public class CreationTest
@@ -90,13 +92,15 @@ public class CreationTest
     @Test
     public void dataTransport()
     {
+        DataFlowNodeLifeCycleControl dataFlowNodeLifeCycleControl = new TestJEEDataFlowNodeLifeCycleControl();
+
         String              name       = "JSON Object Field Pass Data Processor";
         Map<String, String> properties = new HashMap<String, String>();
         properties.put(JSONObjectFieldPassDataProcessor.FIELDSPASSED_PROPERTYNAME, "b,d");
 
         DataProcessor jsonObjectFieldPassDataProcessor = new JSONObjectFieldPassDataProcessor(name, properties);
 
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(jsonObjectFieldPassDataProcessor, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), jsonObjectFieldPassDataProcessor, null);
 
         DataConsumer<String> dataConsumerString = jsonObjectFieldPassDataProcessor.getDataConsumer(String.class);
         assertNotNull("Unexpected 'null' dataConsumer<String>", dataConsumerString);
@@ -109,5 +113,7 @@ public class CreationTest
 
         DataProvider<Integer> dataProviderInteger = jsonObjectFieldPassDataProcessor.getDataProvider(Integer.class);
         assertNull("Expected 'null' dataProvider<Integer>", dataProviderInteger);
+
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(jsonObjectFieldPassDataProcessor);
     }
 }

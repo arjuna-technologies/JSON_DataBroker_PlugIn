@@ -7,12 +7,14 @@ package com.arjuna.dbplugins.json.test.jsonarrayfieldpassdataprocessor;
 import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.UUID;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataProcessor;
 import com.arjuna.databroker.data.DataProvider;
-import com.arjuna.databroker.data.jee.DataFlowNodeLifeCycleControl;
+import com.arjuna.databroker.data.core.DataFlowNodeLifeCycleControl;
+import com.arjuna.dbutilities.testsupport.dataflownodes.lifecycle.TestJEEDataFlowNodeLifeCycleControl;
 import com.arjuna.dplugins.json.JSONArrayFieldPassDataProcessor;
 
 public class CreationTest
@@ -90,13 +92,15 @@ public class CreationTest
     @Test
     public void dataTransport()
     {
+        DataFlowNodeLifeCycleControl dataFlowNodeLifeCycleControl = new TestJEEDataFlowNodeLifeCycleControl();
+
         String              name       = "JSON Array Field Pass Data Processor";
         Map<String, String> properties = new HashMap<String, String>();
         properties.put(JSONArrayFieldPassDataProcessor.FIELDSPASSED_PROPERTYNAME, "b,d");
 
         DataProcessor jsonArrayFieldPassDataProcessor = new JSONArrayFieldPassDataProcessor(name, properties);
 
-        DataFlowNodeLifeCycleControl.processCreatedDataFlowNode(jsonArrayFieldPassDataProcessor, null);
+        dataFlowNodeLifeCycleControl.completeCreationAndActivateDataFlowNode(UUID.randomUUID().toString(), jsonArrayFieldPassDataProcessor, null);
 
         DataConsumer<String> dataConsumerString = jsonArrayFieldPassDataProcessor.getDataConsumer(String.class);
         assertNotNull("Unexpected 'null' dataConsumer<String>", dataConsumerString);
@@ -109,5 +113,7 @@ public class CreationTest
 
         DataProvider<Integer> dataProviderInteger = jsonArrayFieldPassDataProcessor.getDataProvider(Integer.class);
         assertNull("Expected 'null' dataProvider<Integer>", dataProviderInteger);
+
+        dataFlowNodeLifeCycleControl.removeDataFlowNode(jsonArrayFieldPassDataProcessor);
     }
 }
