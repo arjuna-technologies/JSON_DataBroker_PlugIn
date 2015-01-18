@@ -4,7 +4,8 @@
 
 package com.arjuna.dplugins.json;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -19,10 +20,19 @@ public class JSONFactoriesSetup
     @PostConstruct
     public void setup()
     {
-        JSONObjectFieldPassDataProcessorFactory  jsonObjectFieldPassDataProcessorFactory  = new JSONObjectFieldPassDataProcessorFactory("JSON Object Field Pass Data Processor Factory", Collections.<String, String>emptyMap());
-        JSONObjectFieldBlockDataProcessorFactory jsonObjectFieldBlockDataProcessorFactory = new JSONObjectFieldBlockDataProcessorFactory("JSON Object Field Block Data Processor Factory", Collections.<String, String>emptyMap());
-        JSONArrayFieldPassDataProcessorFactory   jsonArrayFieldPassDataProcessorFactory   = new JSONArrayFieldPassDataProcessorFactory("JSON Array Field Pass Data Processor Factory", Collections.<String, String>emptyMap());
-        JSONArrayFieldBlockDataProcessorFactory  jsonArrayFieldBlockDataProcessorFactory  = new JSONArrayFieldBlockDataProcessorFactory("JSON Array Field Block Data Processor Factory", Collections.<String, String>emptyMap());
+        Map<String, String> jsonObjectFieldPassDataProcessorFactoryProperties = new HashMap<String, String>();
+        jsonObjectFieldPassDataProcessorFactoryProperties.put("Description", JSONObjectFieldPassDataProcessorFactory.DESCRIPTION);
+        Map<String, String> jsonObjectFieldBlockDataProcessorFactoryProperties = new HashMap<String, String>();
+        jsonObjectFieldBlockDataProcessorFactoryProperties.put("Description", JSONObjectFieldBlockDataProcessorFactory.DESCRIPTION);
+        Map<String, String> jsonArrayFieldPassDataProcessorFactoryProperties = new HashMap<String, String>();
+        jsonArrayFieldPassDataProcessorFactoryProperties.put("Description", JSONArrayFieldPassDataProcessorFactory.DESCRIPTION);
+        Map<String, String> jsonArrayFieldBlockDataProcessorFactoryProperties = new HashMap<String, String>();
+        jsonArrayFieldBlockDataProcessorFactoryProperties.put("Description", JSONArrayFieldBlockDataProcessorFactory.DESCRIPTION);
+
+        JSONObjectFieldPassDataProcessorFactory  jsonObjectFieldPassDataProcessorFactory  = new JSONObjectFieldPassDataProcessorFactory("JSON Object Field Pass Data Processor Factory", jsonObjectFieldPassDataProcessorFactoryProperties);
+        JSONObjectFieldBlockDataProcessorFactory jsonObjectFieldBlockDataProcessorFactory = new JSONObjectFieldBlockDataProcessorFactory("JSON Object Field Block Data Processor Factory", jsonObjectFieldBlockDataProcessorFactoryProperties);
+        JSONArrayFieldPassDataProcessorFactory   jsonArrayFieldPassDataProcessorFactory   = new JSONArrayFieldPassDataProcessorFactory("JSON Array Field Pass Data Processor Factory", jsonArrayFieldPassDataProcessorFactoryProperties);
+        JSONArrayFieldBlockDataProcessorFactory  jsonArrayFieldBlockDataProcessorFactory  = new JSONArrayFieldBlockDataProcessorFactory("JSON Array Field Block Data Processor Factory", jsonArrayFieldBlockDataProcessorFactoryProperties);
 
         _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(jsonObjectFieldPassDataProcessorFactory);
         _dataFlowNodeFactoryInventory.addDataFlowNodeFactory(jsonObjectFieldBlockDataProcessorFactory);

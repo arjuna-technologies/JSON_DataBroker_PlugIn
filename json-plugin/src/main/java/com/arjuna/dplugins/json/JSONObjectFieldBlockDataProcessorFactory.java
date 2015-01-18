@@ -20,6 +20,8 @@ import com.arjuna.databroker.data.MissingPropertyException;
 
 public class JSONObjectFieldBlockDataProcessorFactory implements DataFlowNodeFactory
 {
+	public static final String DESCRIPTION = "Creates data flow nodes which remove specified fields from JSON objects";
+
     public JSONObjectFieldBlockDataProcessorFactory(String name, Map<String, String> properties)
     {
         _name       = name;
