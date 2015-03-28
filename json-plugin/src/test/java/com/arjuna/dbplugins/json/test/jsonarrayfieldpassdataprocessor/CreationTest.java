@@ -14,7 +14,7 @@ import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataProcessor;
 import com.arjuna.databroker.data.DataProvider;
 import com.arjuna.databroker.data.core.DataFlowNodeLifeCycleControl;
-import com.arjuna.dbutilities.testsupport.dataflownodes.lifecycle.TestJEEDataFlowNodeLifeCycleControl;
+import com.arjuna.dbutils.testsupport.dataflownodes.lifecycle.TestJEEDataFlowNodeLifeCycleControl;
 import com.arjuna.dplugins.json.JSONArrayFieldPassDataProcessor;
 
 public class CreationTest
