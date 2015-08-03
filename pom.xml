@@ -59,7 +59,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- JBossAS-7.1.1.Final
+            <!-- JBossAS-7.1.1.Final -->
             <dependency>
                 <groupId>org.jboss.as</groupId>
                 <artifactId>jboss-as-dist</artifactId>
@@ -67,8 +67,8 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            -->
-            <!-- WildFly-8.1.0.Final -->
+            <!-- -->
+            <!-- WildFly-8.1.0.Final
             <dependency>
                 <groupId>org.wildfly</groupId>
                 <artifactId>wildfly-dist</artifactId>
@@ -76,7 +76,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- -->
+            -->
         </dependencies>
     </dependencyManagement>
 
