@@ -33,16 +33,16 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- JBossAS-7.1.1.Final
+        <!-- JBossAS-7.1.1.Final -->
         <servlet-api.version>3.0</servlet-api.version>
         <ejb-api.version>3.1</ejb-api.version>
         <jee.version>6</jee.version>
-        -->
-        <!-- WildFly-8.1.0.Final -->
+        <!-- -->
+        <!-- WildFly-8.1.0.Final
         <servlet-api.version>3.1</servlet-api.version>
         <ejb-api.version>3.2</ejb-api.version>
         <jee.version>7</jee.version>
-        <!-- -->
+        -->
     </properties>
 
     <modules>
