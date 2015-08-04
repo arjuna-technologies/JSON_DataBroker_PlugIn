@@ -20,7 +20,7 @@ import com.arjuna.databroker.data.MissingPropertyException;
 
 public class JSONArrayFieldPassDataProcessorFactory implements DataFlowNodeFactory
 {
-	public static final String DESCRIPTION = "Creates data flow nodes which retains only specified fields from JSON arrays";
+    public static final String DESCRIPTION = "Creates data flow nodes which retains only specified fields from JSON arrays";
 
     public JSONArrayFieldPassDataProcessorFactory(String name, Map<String, String> properties)
     {

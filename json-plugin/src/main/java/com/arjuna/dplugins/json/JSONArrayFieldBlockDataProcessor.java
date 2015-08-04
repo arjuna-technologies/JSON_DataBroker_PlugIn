@@ -11,11 +11,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.arjuna.databroker.data.DataConsumer;
 import com.arjuna.databroker.data.DataFlow;
 import com.arjuna.databroker.data.DataProcessor;
@@ -24,6 +22,7 @@ import com.arjuna.databroker.data.jee.annotation.DataConsumerInjection;
 import com.arjuna.databroker.data.jee.annotation.DataProviderInjection;
 import com.arjuna.databroker.data.jee.annotation.PostConfig;
 import com.arjuna.databroker.data.jee.annotation.PostCreated;
+import com.arjuna.databroker.data.jee.annotation.PostRecovery;
 
 public class JSONArrayFieldBlockDataProcessor implements DataProcessor
 {
@@ -84,11 +83,7 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
     }
 
     @PostCreated
-    public void setup()
-    {
-        config();
-    }
-
+    @PostRecovery
     @PostConfig
     public void config()
     {
@@ -99,7 +94,7 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
             for (String fieldBlocked: fieldsBlockedProperty.split(","))
                 _fieldsBlocked.add(fieldBlocked.trim());
     }
- 
+
     @SuppressWarnings("unchecked")
     public void filter(String data)
     {
@@ -140,7 +135,7 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
             logger.log(Level.WARNING, "Failed to process");
         }
     }
-    
+
     @Override
     public Collection<Class<?>> getDataConsumerDataClasses()
     {
