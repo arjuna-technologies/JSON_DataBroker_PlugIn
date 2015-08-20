@@ -2,7 +2,7 @@
  * Copyright (c) 2014-2015, Arjuna Technologies Limited, Newcastle-upon-Tyne, England. All rights reserved.
  */
 
-package com.arjuna.dplugins.json;
+package com.arjuna.dbplugins.json;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.arjuna.databroker.data.DataConsumer;
@@ -23,20 +24,20 @@ import com.arjuna.databroker.data.jee.annotation.PostConfig;
 import com.arjuna.databroker.data.jee.annotation.PostCreated;
 import com.arjuna.databroker.data.jee.annotation.PostRecovery;
 
-public class JSONObjectFieldBlockDataProcessor implements DataProcessor
+public class JSONArrayFieldBlockDataProcessor implements DataProcessor
 {
-    private static final Logger logger = Logger.getLogger(JSONObjectFieldBlockDataProcessor.class.getName());
+    private static final Logger logger = Logger.getLogger(JSONArrayFieldBlockDataProcessor.class.getName());
 
     public static final String FIELDSBLOCKED_PROPERTYNAME = "Fields Blocked";
 
-    public JSONObjectFieldBlockDataProcessor()
+    public JSONArrayFieldBlockDataProcessor()
     {
-        logger.log(Level.FINE, "JSONObjectFieldBlockDataProcessor");
+        logger.log(Level.FINE, "JSONArrayFieldBlockDataProcessor");
     }
 
-    public JSONObjectFieldBlockDataProcessor(String name, Map<String, String> properties)
+    public JSONArrayFieldBlockDataProcessor(String name, Map<String, String> properties)
     {
-        logger.log(Level.FINE, "JSONObjectFieldBlockDataProcessor: " + name + ", " + properties);
+        logger.log(Level.FINE, "JSONArrayFieldBlockDataProcessor: " + name + ", " + properties);
 
         _fieldsBlocked = new HashSet<String>();
 
@@ -99,27 +100,35 @@ public class JSONObjectFieldBlockDataProcessor implements DataProcessor
     {
         try
         {
-            JSONObject inputJSONObject  = new JSONObject(data);
-            JSONObject outputJSONObject = new JSONObject();
+            JSONArray inputJSONArray  = new JSONArray(data);
+            JSONArray outputJSONArray = new JSONArray();
 
-            for (String field: (Set<String>) inputJSONObject.keySet())
+            for (int index = 0; index < inputJSONArray.length(); index++)
             {
-                try
-                {
-                    if (! _fieldsBlocked.contains(field))
-                    {
-                        Object fieldObjectValue = inputJSONObject.get(field);
+                JSONObject inputJSONObject  = inputJSONArray.getJSONObject(index);
+                JSONObject outputJSONObject = new JSONObject();
 
-                        outputJSONObject.put(field, fieldObjectValue);
+                for (String field: (Set<String>) inputJSONObject.keySet())
+                {
+                    try
+                    {
+                        if (! _fieldsBlocked.contains(field))
+                        {
+                            Object fieldObjectValue = inputJSONObject.get(field);
+
+                            outputJSONObject.put(field, fieldObjectValue);
+                        }
+                    }
+                    catch (JSONException jsonException)
+                    {
+                        logger.log(Level.WARNING, "Failed to transfer field");
                     }
                 }
-                catch (JSONException jsonException)
-                {
-                    logger.log(Level.WARNING, "Failed to transfer field");
-                }
+
+                outputJSONArray.put(index, outputJSONObject);
             }
 
-            _dataProvider.produce(outputJSONObject.toString());
+            _dataProvider.produce(outputJSONArray.toString());
         }
         catch (Throwable throwable)
         {

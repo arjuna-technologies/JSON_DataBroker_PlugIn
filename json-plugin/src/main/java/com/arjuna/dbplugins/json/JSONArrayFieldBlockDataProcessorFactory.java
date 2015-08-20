@@ -2,7 +2,7 @@
  * Copyright (c) 2014-2015, Arjuna Technologies Limited, Newcastle-upon-Tyne, England. All rights reserved.
  */
 
-package com.arjuna.dplugins.json;
+package com.arjuna.dbplugins.json;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,11 +18,11 @@ import com.arjuna.databroker.data.InvalidPropertyException;
 import com.arjuna.databroker.data.MissingMetaPropertyException;
 import com.arjuna.databroker.data.MissingPropertyException;
 
-public class JSONObjectFieldPassDataProcessorFactory implements DataFlowNodeFactory
+public class JSONArrayFieldBlockDataProcessorFactory implements DataFlowNodeFactory
 {
-    public static final String DESCRIPTION = "Creates data flow nodes which retains only specified fields from JSON objects";
+    public static final String DESCRIPTION = "Creates data flow nodes which remove specified fields from JSON arrays";
 
-    public JSONObjectFieldPassDataProcessorFactory(String name, Map<String, String> properties)
+    public JSONArrayFieldBlockDataProcessorFactory(String name, Map<String, String> properties)
     {
         _name       = name;
         _properties = properties;
@@ -62,7 +62,7 @@ public class JSONObjectFieldPassDataProcessorFactory implements DataFlowNodeFact
     {
         List<String> propertyNames = new LinkedList<String>();
 
-        propertyNames.add(JSONObjectFieldPassDataProcessor.FIELDSPASSED_PROPERTYNAME);
+        propertyNames.add(JSONArrayFieldBlockDataProcessor.FIELDSBLOCKED_PROPERTYNAME);
 
         return propertyNames;
     }
@@ -72,8 +72,8 @@ public class JSONObjectFieldPassDataProcessorFactory implements DataFlowNodeFact
     public <T extends DataFlowNode> T createDataFlowNode(String name, Class<T> dataFlowNodeClass, Map<String, String> metaProperties, Map<String, String> properties)
         throws InvalidNameException, InvalidPropertyException, MissingPropertyException
     {
-        if (dataFlowNodeClass.isAssignableFrom(JSONObjectFieldPassDataProcessor.class))
-            return (T) new JSONObjectFieldPassDataProcessor(name, properties);
+        if (dataFlowNodeClass.isAssignableFrom(JSONArrayFieldBlockDataProcessor.class))
+            return (T) new JSONArrayFieldBlockDataProcessor(name, properties);
         else
             return null;
     }

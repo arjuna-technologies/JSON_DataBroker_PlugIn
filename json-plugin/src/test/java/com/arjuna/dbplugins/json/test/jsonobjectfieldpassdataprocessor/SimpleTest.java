@@ -15,10 +15,10 @@ import com.arjuna.databroker.data.DataProcessor;
 import com.arjuna.databroker.data.connector.ObservableDataProvider;
 import com.arjuna.databroker.data.connector.ObserverDataConsumer;
 import com.arjuna.databroker.data.core.DataFlowNodeLifeCycleControl;
+import com.arjuna.dbplugins.json.JSONObjectFieldPassDataProcessor;
 import com.arjuna.dbutils.testsupport.dataflownodes.dummy.DummyDataSink;
 import com.arjuna.dbutils.testsupport.dataflownodes.dummy.DummyDataSource;
 import com.arjuna.dbutils.testsupport.dataflownodes.lifecycle.TestJEEDataFlowNodeLifeCycleControl;
-import com.arjuna.dplugins.json.JSONObjectFieldPassDataProcessor;
 
 public class SimpleTest
 {

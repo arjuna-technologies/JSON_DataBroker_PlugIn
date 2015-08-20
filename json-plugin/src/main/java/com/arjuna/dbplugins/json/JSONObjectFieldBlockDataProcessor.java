@@ -2,13 +2,11 @@
  * Copyright (c) 2014-2015, Arjuna Technologies Limited, Newcastle-upon-Tyne, England. All rights reserved.
  */
 
-package com.arjuna.dplugins.json;
+package com.arjuna.dbplugins.json;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -25,22 +23,22 @@ import com.arjuna.databroker.data.jee.annotation.PostConfig;
 import com.arjuna.databroker.data.jee.annotation.PostCreated;
 import com.arjuna.databroker.data.jee.annotation.PostRecovery;
 
-public class JSONObjectFieldPassDataProcessor implements DataProcessor
+public class JSONObjectFieldBlockDataProcessor implements DataProcessor
 {
-    private static final Logger logger = Logger.getLogger(JSONObjectFieldPassDataProcessor.class.getName());
+    private static final Logger logger = Logger.getLogger(JSONObjectFieldBlockDataProcessor.class.getName());
 
-    public static final String FIELDSPASSED_PROPERTYNAME = "Fields Passed";
+    public static final String FIELDSBLOCKED_PROPERTYNAME = "Fields Blocked";
 
-    public JSONObjectFieldPassDataProcessor()
+    public JSONObjectFieldBlockDataProcessor()
     {
-        logger.log(Level.FINE, "JSONObjectFieldPassDataProcessor");
+        logger.log(Level.FINE, "JSONObjectFieldBlockDataProcessor");
     }
 
-    public JSONObjectFieldPassDataProcessor(String name, Map<String, String> properties)
+    public JSONObjectFieldBlockDataProcessor(String name, Map<String, String> properties)
     {
-        logger.log(Level.FINE, "JSONObjectFieldPassDataProcessor: " + name + ", " + properties);
+        logger.log(Level.FINE, "JSONObjectFieldBlockDataProcessor: " + name + ", " + properties);
 
-        _fieldsPassed = new LinkedList<String>();
+        _fieldsBlocked = new HashSet<String>();
 
         _name       = name;
         _properties = properties;
@@ -88,14 +86,15 @@ public class JSONObjectFieldPassDataProcessor implements DataProcessor
     @PostConfig
     public void config()
     {
-        String fieldsPassedProperty = _properties.get(FIELDSPASSED_PROPERTYNAME);
+        String fieldsBlockedProperty = _properties.get(FIELDSBLOCKED_PROPERTYNAME);
 
-        _fieldsPassed.clear();
-        if (fieldsPassedProperty != null)
-            for (String fieldPassed: fieldsPassedProperty.split(","))
-                _fieldsPassed.add(fieldPassed.trim());
+        _fieldsBlocked.clear();
+        if (fieldsBlockedProperty != null)
+            for (String fieldBlocked: fieldsBlockedProperty.split(","))
+                _fieldsBlocked.add(fieldBlocked.trim());
     }
 
+    @SuppressWarnings("unchecked")
     public void filter(String data)
     {
         try
@@ -103,16 +102,20 @@ public class JSONObjectFieldPassDataProcessor implements DataProcessor
             JSONObject inputJSONObject  = new JSONObject(data);
             JSONObject outputJSONObject = new JSONObject();
 
-            for (String fieldPassed: _fieldsPassed)
+            for (String field: (Set<String>) inputJSONObject.keySet())
             {
                 try
                 {
-                    Object fieldPassedObjectValue = inputJSONObject.get(fieldPassed);
+                    if (! _fieldsBlocked.contains(field))
+                    {
+                        Object fieldObjectValue = inputJSONObject.get(field);
 
-                    outputJSONObject.put(fieldPassed, fieldPassedObjectValue);
+                        outputJSONObject.put(field, fieldObjectValue);
+                    }
                 }
                 catch (JSONException jsonException)
                 {
+                    logger.log(Level.WARNING, "Failed to transfer field");
                 }
             }
 
@@ -164,7 +167,7 @@ public class JSONObjectFieldPassDataProcessor implements DataProcessor
             return null;
     }
 
-    private List<String> _fieldsPassed;
+    private Set<String> _fieldsBlocked;
 
     private String               _name;
     private Map<String, String>  _properties;
