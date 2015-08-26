@@ -32,6 +32,8 @@ public class JSONObjectFieldBlockDataProcessor implements DataProcessor
     public JSONObjectFieldBlockDataProcessor()
     {
         logger.log(Level.FINE, "JSONObjectFieldBlockDataProcessor");
+
+        _fieldsBlocked = new HashSet<String>();
     }
 
     public JSONObjectFieldBlockDataProcessor(String name, Map<String, String> properties)
