@@ -35,6 +35,8 @@ public class JSONArrayFieldPassDataProcessor implements DataProcessor
     public JSONArrayFieldPassDataProcessor()
     {
         logger.log(Level.FINE, "JSONObjectFieldPassDataProcessor");
+
+        _fieldsPassed = new LinkedList<String>();
     }
 
     public JSONArrayFieldPassDataProcessor(String name, Map<String, String> properties)

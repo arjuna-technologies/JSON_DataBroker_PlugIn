@@ -33,6 +33,8 @@ public class JSONArrayFieldBlockDataProcessor implements DataProcessor
     public JSONArrayFieldBlockDataProcessor()
     {
         logger.log(Level.FINE, "JSONArrayFieldBlockDataProcessor");
+
+        _fieldsBlocked = new HashSet<String>();
     }
 
     public JSONArrayFieldBlockDataProcessor(String name, Map<String, String> properties)
